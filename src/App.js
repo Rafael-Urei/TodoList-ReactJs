@@ -20,16 +20,17 @@ const Li = (props) => {
   return (
     <>
       <div className='li-container'>
-        <li className='li' onClick={props.handleShowDropdown}>{`${props.index}: ${props.item.value}`}
+
+        <li className={props.item.done ? 'done' : 'li'}>{`${props.index}: ${props.item.value}`}
+        <button type='button' onClick={props.handleShowDropdown}>Edit</button>
         </li>
         <BiSquareRounded className={`'checkbox-off' ${props.item.checked ? 'checkbox-on' : 'checkbox-off'}`} onClick={props.handleChange}/>
-      </div>
-
-      {props.item.state ? 
+        {props.item.state ? 
         <div className='popup'>
           <Text handleEditTask={props.handleEditTask} handleNewValue={props.handleNewValue} newValue={props.newValue} item={props.item}/>
         </div> : null}
-
+        
+      </div>
     </>
   )
 };
@@ -62,7 +63,8 @@ export default function App() {
             key: uuid(),
             value: inputValue,
             state: false,
-            checked: false
+            checked: false,
+            done: false
           }
         ]
       }) : alert('Input field cannot be blank!');
@@ -95,6 +97,20 @@ export default function App() {
     setTasks(newList);
   };
 
+  const handleDoneTask = (key) => {
+    const newlist = tasks.map((object) => {
+      if (object.key === key) {
+        return {
+          ...object,
+          done: !object.done
+        }
+      } else {
+        return object
+      }
+    })
+    setTasks(newlist);
+  };
+
   return (
     <div className='App'>
       <main>
@@ -112,10 +128,13 @@ export default function App() {
                 </> :
                 tasks.map((item, index) => {
                   return (
-                    <Li key={item.key} item={item} index={index} handleShowDropdown={() => handleShowDropdown(item.key)} handleChange={() => {handleChange(item.key)}}
-                    handleEditTask={() => handleEditTask(item.key)} handleNewValue={handleNewValue} newValue={newValue}
-                    >
-                    </Li>
+                    <>
+                      <Li key={item.key} item={item} index={index} handleShowDropdown={() => handleShowDropdown(item.key)} handleChange={() => {handleChange(item.key)}}
+                      handleEditTask={() => handleEditTask(item.key)} handleNewValue={handleNewValue} newValue={newValue} 
+                      >
+                      </Li>
+                      <button type='checkbox' className='done-button' onClick={() => handleDoneTask(item.key)}>{ item.done ? 'Undone' : 'Done'}</button>
+                    </>
                   )
                 })
               }

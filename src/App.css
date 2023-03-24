@@ -199,6 +199,39 @@ ul {
   padding: 40px 0px 40px 0px;
 }
 
+.done {
+  display: flex;
+  padding: 5px;
+  border-radius: 5px;
+  position: relative;
+  cursor: pointer;
+  transition: 200ms;
+  border: none;
+  text-align: center;
+  justify-content: center;
+  color: #ffffff;
+  text-decoration: line-through;
+  background-color: #57ff8f67;
+  opacity: 50%;
+}
+
+.done-button {
+  background-color: rgb(45, 128, 96);
+  color: white;
+  border: none;
+  padding: 5px;
+  border-radius: 2px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.items {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+  margin: 10px;
+}
+
 @media all and (max-width: 1000px) {
   .no-posts {
     transform: scale(0.5);

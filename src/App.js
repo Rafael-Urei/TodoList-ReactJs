@@ -5,57 +5,66 @@ import { AiOutlinePlus, AiFillEdit } from 'react-icons/ai';
 import { BiSquareRounded, BiTrash } from 'react-icons/bi';
 import { RxEyeNone } from 'react-icons/rx';
 
-const Text = ({ handleEditTask, handleNewValue }) => {
+const Text = ({ handleEditTask, handleNewValue, newValue, item}) => {
   return (
     <>
-      <textarea className='description-input' placeholder='New task...' onChange={handleNewValue}></textarea>
-      <AiFillEdit className='edit-button' onClick={handleEditTask}>Edit</AiFillEdit>
+      <textarea className='description-input' placeholder='New task...' autoComplete='no' onChange={handleNewValue} ></textarea>
+      <button type='button' className='edit-button' onClick={handleEditTask}>
+        <AiFillEdit></AiFillEdit>
+      </button>
     </>
   )
 };
 
-const Li = ({ item, index, handleShowDropdown, handleChange, handleEditTask, handleNewValue }) => {
+const Li = (props) => {
   return (
     <>
-      <li className={item.state ? 'task' : 'li'} onClick={handleShowDropdown}>{`${index}: ${item.value}`}
-      <BiSquareRounded className={`'checkbox-off' ${item.checked ? 'checkbox-on' : 'checkbox-off'}`} onClick={handleChange}/>
-      </li>
-      {item.state ? <div className='popup'><Text handleEditTask={handleEditTask} handleNewValue={handleNewValue}/></div> : null}
+      <div className='li-container'>
+        <li className='li' onClick={props.handleShowDropdown}>{`${props.index}: ${props.item.value}`}
+        </li>
+        <BiSquareRounded className={`'checkbox-off' ${props.item.checked ? 'checkbox-on' : 'checkbox-off'}`} onClick={props.handleChange}/>
+      </div>
+
+      {props.item.state ? 
+        <div className='popup'>
+          <Text handleEditTask={props.handleEditTask} handleNewValue={props.handleNewValue} newValue={props.newValue} item={props.item}/>
+        </div> : null}
+
     </>
   )
 };
 
 export default function App() {
 
-  const [input_value, setInput_value] = useState('');
+  const [inputValue, setInputValue] = useState('');
   const [tasks, setTasks] = useState([]);
   const [newValue, setNewValue] = useState('');
 
-  const preventDefault = e => e.preventDefault();
-
-  const handleGetValue = e => setInput_value(e.target.value);
+  const handleGetValue = e => setInputValue(e.target.value);
 
   const handleNewValue = e => setNewValue(e.target.value);
 
   const handleEditTask = (key) => {
-    const editedTasks = tasks.map(object  => object.key === key ? { ...object, value: newValue } : object);
+    const editedTasks = tasks.map(object  => object.key === key ? { ...object, value: newValue, state: !object.state } : object);
     setTasks(editedTasks);
+    setNewValue('');
   }
 
-  const handleAddTasks = () => {
-    input_value !== '' ?
+  const handleAddTask = (e) => {
+    e.preventDefault();
+    inputValue !== '' ?
       setTasks(prevState => {
         return [
           ...prevState,
           {
             key: uuid(),
-            value: input_value,
+            value: inputValue,
             state: false,
             checked: false
           }
         ]
       }) : alert('Input field cannot be blank!');
-      setInput_value('');
+      setInputValue('');
   };
 
   const handleShowDropdown = (key) => {
@@ -73,7 +82,8 @@ export default function App() {
     });
   };
 
-  const handleRemove = () => {
+  const handleRemove = (e) => {
+    e.preventDefault();
     const newList = tasks.filter(object => object.checked ? false : true);
     setTasks(newList);
   };
@@ -86,27 +96,31 @@ export default function App() {
   return (
     <div className='App'>
       <main>
-        <form onSubmit={preventDefault}>
-          <input className='input' type='text' name='input' value={input_value} placeholder='e.g. Study React.JS' onChange={handleGetValue}></input>
-          <AiOutlinePlus className='add-button' onClick={handleAddTasks}/>
-          <ul>
-            {tasks.length === 0 ? 
-              <>
-                <RxEyeNone className='no-posts'/>
-                <p>There are no posts yet!</p>
-              </> :
-              tasks.map((item, index) => {
-                return (
-                  <Li key={item.key} item={item} index={index} handleShowDropdown={() => handleShowDropdown(item.key)} handleChange={() => {handleChange(item.key)}}
-                  handleEditTask={() => handleEditTask(item.key)} handleNewValue={handleNewValue}
-                  >
-                  </Li>
-                )
-              })
-            }
-          </ul>
-          <BiTrash onClick={handleRemove} className='remove-button'/>
+        <form onSubmit={handleAddTask}>
+          <input className='input' type='text' name='input' value={inputValue} placeholder='e.g. Study React.JS' autoComplete='no' onChange={handleGetValue}></input>
+          <button type='submit' className='add-button' onClick={handleAddTask}><AiOutlinePlus/></button>
         </form>
+        <div className='list-container'>
+          <ul>
+
+              {tasks.length === 0 ? 
+                <>
+                  <RxEyeNone className='no-posts'/>
+                  <p>There are no posts yet!</p>
+                </> :
+                tasks.map((item, index) => {
+                  return (
+                    <Li key={item.key} item={item} index={index} handleShowDropdown={() => handleShowDropdown(item.key)} handleChange={() => {handleChange(item.key)}}
+                    handleEditTask={() => handleEditTask(item.key)} handleNewValue={handleNewValue} newValue={newValue}
+                    >
+                    </Li>
+                  )
+                })
+              }
+
+          </ul>
+        </div>
+          <button type='button' onClick={handleRemove} className='remove-button'><BiTrash/></button>
       </main>
     </div>
   )

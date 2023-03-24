@@ -94,29 +94,30 @@ ul {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
-  scale: 2;
+  border-radius: 5px;
+  padding: 10px;
   border: none;
-  color: #084629;
+  color: #e7e7e7;
+  font-weight: 600;
   margin: 20px 0px 20px 0px;
-  background-color: rgb(37, 255, 171);
+  background-color: rgb(0, 158, 119);
   cursor: pointer;
   transition: 200ms;
 } 
 
-.add-button:hover {
-  transform: scale(0.9);
-}
-
 .remove-button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   border: none;
   background-color: transparent;
   margin-top: 30px;
   font-family: 'Roboto Mono', monospace;
-  scale: 1.5;
   border-radius: 3px;
   cursor: pointer;
-  color: rgb(155, 27, 61);
+  color: #D9D9D9;
+  padding: 10px;
+  background-color: rgb(155, 27, 61);
 }
 
 .checkbox-on {

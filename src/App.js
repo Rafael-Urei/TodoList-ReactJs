@@ -8,7 +8,7 @@ import { RxEyeNone } from 'react-icons/rx';
 const Text = ({ handleEditTask, handleNewValue, newValue, item}) => {
   return (
     <>
-      <textarea className='description-input' placeholder='New task...' autoComplete='no' onChange={handleNewValue} ></textarea>
+      <textarea className='description-input' autoFocus placeholder='New task...' autoComplete='no' onChange={handleNewValue} ></textarea>
       <button type='button' className='edit-button' onClick={handleEditTask}>
         <AiFillEdit></AiFillEdit>
       </button>
@@ -46,8 +46,10 @@ export default function App() {
 
   const handleEditTask = (key) => {
     const editedTasks = tasks.map(object  => object.key === key ? { ...object, value: newValue, state: !object.state } : object);
-    setTasks(editedTasks);
-    setNewValue('');
+    { newValue !== '' ?
+      setTasks(editedTasks)
+      : alert('Input cannot be blank!')
+    }
   }
 
   const handleAddTask = (e) => {
@@ -98,7 +100,7 @@ export default function App() {
       <main>
         <form onSubmit={handleAddTask}>
           <input className='input' type='text' name='input' value={inputValue} placeholder='e.g. Study React.JS' autoComplete='no' onChange={handleGetValue}></input>
-          <button type='submit' className='add-button' onClick={handleAddTask}><AiOutlinePlus/></button>
+          <button type='submit' className='add-button' onClick={handleAddTask}><AiOutlinePlus/> Add Task</button>
         </form>
         <div className='list-container'>
           <ul>
@@ -120,7 +122,7 @@ export default function App() {
 
           </ul>
         </div>
-          <button type='button' onClick={handleRemove} className='remove-button'><BiTrash/></button>
+          <button type='button' onClick={handleRemove} className='remove-button'><BiTrash/> Remove checked</button>
       </main>
     </div>
   )

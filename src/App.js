@@ -1,48 +1,26 @@
 import { useState } from 'react';
 import uuid from 'react-uuid';
 import './App.css';
-import { AiOutlinePlus, AiFillEdit } from 'react-icons/ai';
-import { BiSquareRounded, BiTrash } from 'react-icons/bi';
+import { AiOutlinePlus } from 'react-icons/ai';
+import { BiTrash } from 'react-icons/bi';
 import { RxEyeNone } from 'react-icons/rx';
+import { Li } from '../src/components/li';
 
-const Text = ({ handleEditTask, handleNewValue, newValue, item}) => {
-  return (
-    <>
-      <textarea className='description-input' autoFocus placeholder='New task...' autoComplete='no' onChange={handleNewValue} ></textarea>
-      <button type='button' className='edit-button' onClick={handleEditTask}>
-        <AiFillEdit></AiFillEdit>
-      </button>
-    </>
-  )
-};
-
-const Li = (props) => {
-  return (
-    <>
-      <div className='li-container'>
-
-        <li className={props.item.done ? 'done' : 'li'}>{`${props.index}: ${props.item.value}`}
-        <button type='button' onClick={props.handleShowDropdown}>Edit</button>
-        </li>
-        <BiSquareRounded className={`'checkbox-off' ${props.item.checked ? 'checkbox-on' : 'checkbox-off'}`} onClick={props.handleChange}/>
-        {props.item.state ? 
-        <div className='popup'>
-          <Text handleEditTask={props.handleEditTask} handleNewValue={props.handleNewValue} newValue={props.newValue} item={props.item}/>
-        </div> : null}
-        
-      </div>
-    </>
-  )
-};
 
 export default function App() {
+
+  // ------------------ States ------------------
 
   const [inputValue, setInputValue] = useState('');
   const [tasks, setTasks] = useState([]);
   const [newValue, setNewValue] = useState('');
 
-  const handleGetValue = e => setInputValue(e.target.value);
+  // ------------------ States ------------------
 
+
+  // ------------------ Functions ------------------
+
+  const handleGetValue = e => setInputValue(e.target.value);
   const handleNewValue = e => setNewValue(e.target.value);
 
   const handleEditTask = (key) => {
@@ -103,13 +81,17 @@ export default function App() {
         return {
           ...object,
           done: !object.done
-        }
+        };
       } else {
         return object
-      }
-    })
+      };
+    });
     setTasks(newlist);
   };
+
+  // ------------------ Functions ------------------
+
+  // ------------------ Main Code ------------------
 
   return (
     <div className='App'>
@@ -118,31 +100,31 @@ export default function App() {
           <input className='input' type='text' name='input' value={inputValue} placeholder='e.g. Study React.JS' autoComplete='no' onChange={handleGetValue}></input>
           <button type='submit' className='add-button' onClick={handleAddTask}><AiOutlinePlus/> Add Task</button>
         </form>
-        <div className='list-container'>
-          <ul>
-
+        <>
+          <ol>
               {tasks.length === 0 ? 
                 <>
                   <RxEyeNone className='no-posts'/>
-                  <p>There are no posts yet!</p>
+                  <p>There are no tasks yet!</p>
                 </> :
                 tasks.map((item, index) => {
                   return (
                     <>
-                      <Li key={item.key} item={item} index={index} handleShowDropdown={() => handleShowDropdown(item.key)} handleChange={() => {handleChange(item.key)}}
+                      <Li item={item} index={index} handleShowDropdown={() => handleShowDropdown(item.key)} handleChange={() => {handleChange(item.key)}}
                       handleEditTask={() => handleEditTask(item.key)} handleNewValue={handleNewValue} newValue={newValue} 
                       >
+                        <button type='checkbox' className='done-button' onClick={() => handleDoneTask(item.key)}>{ item.done ? 'Undone' : 'Done'}</button>
                       </Li>
-                      <button type='checkbox' className='done-button' onClick={() => handleDoneTask(item.key)}>{ item.done ? 'Undone' : 'Done'}</button>
                     </>
                   )
                 })
               }
-
-          </ul>
-        </div>
+          </ol>
+        </>
           <button type='button' onClick={handleRemove} className='remove-button'><BiTrash/> Remove checked</button>
       </main>
     </div>
   )
 }
+
+// ------------------ Main Code ------------------

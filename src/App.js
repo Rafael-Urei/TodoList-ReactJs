@@ -24,11 +24,10 @@ export default function App() {
   const handleNewValue = e => setNewValue(e.target.value);
 
   const handleEditTask = (key) => {
-    const editedTasks = tasks.map(object  => object.key === key ? { ...object, value: newValue, state: !object.state } : object);
-    { newValue !== '' ?
+    const editedTasks = tasks.map(object  => object.key === key ? { ...object, value: newValue, state: !object.state } : object );
+    newValue !== '' ?
       setTasks(editedTasks)
       : alert('Input cannot be blank!')
-    }
   }
 
   const handleAddTask = (e) => {

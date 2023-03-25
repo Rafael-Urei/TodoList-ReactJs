@@ -1,12 +1,13 @@
-export const Modal = (props) => {
+export const Modal = ({ handleChangeModal,  handleRemove }) => {
     return (
-        <div className='modal'>
-            <div className={ props.changeMode ? 'white-modal-content' : 'modal-content' }>
+        <div className='modal' onClick={handleChangeModal}>
+            <div className="overlay"></div>
+            <div className="modal-content">
                 <h1>Are you sure?</h1>
                 <p>What's done cannot be undone!</p>
                 <div className="button-container">
-                    <button id="btn1" onClick={props.handleRemove}>Yes</button>
-                    <button id="btn2" onClick={() => props.setModal(!props.modal)}>No</button>
+                    <button onClick={handleRemove}>Yes</button>
+                    <button onClick={handleChangeModal}>No</button>
                 </div>
             </div>
         </div>

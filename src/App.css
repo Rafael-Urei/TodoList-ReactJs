@@ -39,13 +39,18 @@ form {
 
 form input {
   flex: 1;
-  height: 20px;
+  height: 60px;
   width: 100%;
   border: none;
   font-weight: bold;
   background-color: #2c2c2c;
   color: #c2c2c2;
   font-family: 'Barlow', sans-serif;
+}
+
+form input:focus, .popup input:focus {
+  border: none;
+  outline: none;
 }
 
 form button {
@@ -83,8 +88,7 @@ ol {
 .no-posts {
   height: 200px;
   width: 200px;
-  background: none;
-  opacity: 20%;
+  color: rgb(88, 88, 88);
 }
 
 .list-container {
@@ -188,32 +192,35 @@ ol {
   background-color: rgba(165, 0, 69, 0.801);
 }
 
-.modal {
+.modal, .overlay {
   position: fixed;
   width: 100vw;
   height: 100vh;
-  background-color: #1f1f1fbb;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+}
+
+.overlay {
+  background-color: #0d0d0d70;
 }
 
 .modal-content {
+  z-index: 1;
   display: flex;
-  grid-auto-rows: auto;
   flex-direction: column;
   align-items: center;
-  justify-items: center;
-  opacity: 100%;
-  z-index: 1;
-  position: fixed;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   background-color: white;
   padding: 20px;
   border-radius: 5px;
-  animation: showmodal 1s 1s;
-  background-color: #222222;
-  box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.233);
+  animation: showmodal 1s;
   font-weight: 600;
 }
 
@@ -229,7 +236,7 @@ ol {
 }
 
 .modal-content p {
-  color: rgba(255, 255, 255, 0.685);
+  color: rgba(0, 0, 0, 0.685);
   font-size: 0.9em;
 }
 
@@ -275,15 +282,13 @@ ol {
 
 @keyframes showmodal {
   from {
-    display: none;
-    transform: scale(0);
-    opacity: 0%;
+    top: -300px;
+    opacity: 0;
   }
 
   to {
-    display: flex;
-    transform: scale(1);
-    opacity: 100%;
+    top: 200;
+    opacity: 1;
   }
 }
 
@@ -324,11 +329,10 @@ ol {
 }
 
 .white-no-posts {
-  color: black;
+  color: rgba(0, 0, 0, 0.384);
   height: 200px;
   width: 200px;
   background: none;
-  opacity: 20%;
 }
 
 .white-list-container {
@@ -365,29 +369,6 @@ ol {
   color: rgb(0, 153, 255);
   cursor: pointer;
   transition: 200ms;
-}
-
-.white-modal-content {
-  display: flex;
-  grid-auto-rows: auto;
-  flex-direction: column;
-  align-items: center;
-  justify-items: center;
-  opacity: 100%;
-  z-index: 1;
-  position: fixed;
-  background-color: white;
-  padding: 20px;
-  border-radius: 5px;
-  animation: showmodal 1s 1s;
-  box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.233);
-  font-weight: 600;
-}
-
-.white-modal-content h1 {
-  font-size: 1.3em;
-  color: rgb(199, 0, 0);
-  margin-bottom: 10px;
 }
 
 .white-modal-content p {

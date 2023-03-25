@@ -68,10 +68,15 @@ export default function App() {
     });
   };
 
+  const handleChangeModal = () => {
+    const newArr = tasks.filter((object) => !object.checked)
+    newArr.length === 0 && tasks.length !== 0 ? setModal(!modal) : alert('Input cannot be blank!')
+    
+  };
+
   const handleRemove = () => {
-    setModal(!modal);
     const newList = tasks.filter(object => object.checked ? false : true);
-    modal && setTasks(newList)
+    setTasks(newList)
   };
 
   const handleChange = (key) => {
@@ -99,7 +104,7 @@ export default function App() {
 
   return (
     <div className='App'>
-      { modal ? <Modal handleRemove={handleRemove} modal={modal} setModal={setModal} changeMode={changeMode}/> : null }
+      {modal && <Modal handleRemove={handleRemove} handleChangeModal={handleChangeModal}/>}
       <button type='button' className='change-button' onClick={() => setChangeMode(!changeMode)}>{ changeMode ? <MdDarkMode/> : <RiSunFill/> }</button>
       <main className={ changeMode ? 'white-main' : null }>
         <form onSubmit={handleAddTask} className={ changeMode ? 'white-form' : null }>
@@ -128,7 +133,7 @@ export default function App() {
               }
           </ol>
         </>
-          <button type='button' onClick={handleRemove} className='remove-button'><BiTrash/> Remove checked</button>
+          <button type='button' onClick={handleChangeModal} className='remove-button'><BiTrash/> Remove checked</button>
       </main>
     </div>
   )

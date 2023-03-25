@@ -25,7 +25,7 @@ main {
 form {
   display: flex;
   align-items: center;
-  width: auto;
+  width: 1000px;
   gap: 20px;
   border-radius: 2px;
   padding-left: 20px;
@@ -40,6 +40,7 @@ form {
 form input {
   flex: 1;
   height: 20px;
+  width: 100%;
   border: none;
   font-weight: bold;
   background-color: #2c2c2c;
@@ -309,7 +310,7 @@ ol {
 }
 
 .white-main {
-  background-color: white;
+  background-color: rgb(241, 241, 241);
   transition: 300ms;
 }
 

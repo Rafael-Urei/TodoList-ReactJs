@@ -17,33 +17,47 @@ main {
   align-items: center;
   gap: 10px;
   min-height: 100vh;
+  background-color: #0D0D0D;
 }
 
 form {
   display: flex;
-  width: 300px;
+  align-items: center;
+  width: auto;
+  gap: 20px;
+  border-radius: 2px;
+  padding-left: 20px;
+  background-color: #2c2c2c;
+}
+
+.icon-list {
+  scale: 1.5;
+  color: #26baff;
 }
 
 form input {
   flex: 1;
-  height: 30px;
-  text-indent: 10px;
+  height: 20px;
   border: none;
-  color: #F25C05;
   font-weight: bold;
-  font-family: cursive;
-  margin-right: 10px;
-  box-shadow: 0px 1px 10px 0px #0d0d0d31;
+  background-color: #2c2c2c;
+  color: #c2c2c2;
 }
 
 form button {
+  display: flex;
+  align-items: center;
   border: none;
-  border-radius: 5px;
-  padding: 0px 5px 0px 5px;
-  background-color: rgb(0, 221, 155);
-  color: white;
+  padding: 15px;
+  background-color: #00ac7885;
+  color: rgb(255, 255, 255);
   font-weight: bold;
-  box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.123);
+  cursor: pointer;
+  transition: 200ms;
+}
+
+form button:hover {
+  background-color: #00ff9d;
 }
 
 ol {
@@ -52,8 +66,9 @@ ol {
   align-items: center;
   padding: 30px;
   border-radius: 5px;
+  width: 80%;
   list-style: none;
-  background-color: #F25C05;
+  background-color: #1f1f1f;
   color: white;
 }
 
@@ -61,40 +76,68 @@ ol {
   height: 200px;
   width: 200px;
   background: none;
+  opacity: 20%;
 }
 
 .list-container {
   display: flex;
+  width: 100%;
   align-items: center;
-  padding: 10px 20px 10px 20px;
-  margin: 10px 0px 10px 0px;
+  cursor: pointer;
+  box-shadow: 0px 1px 0px 0px rgba(0, 27, 77, 0.295);
+}
+
+.list-container li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
+  margin-right: 30px;
+  padding: 10px;
+  margin: 10px 0px 10px 20px;
   border-radius: 5px;
-  background-color: #ffffff;
-  color: #0D0D0D;
+  color: #c2c2c2;
   font-family: 'Roboto Condensed', sans-serif;
   font-weight: bold;
 }
 
-.list-container li {
-  flex: 1;
-  margin-right: 10px;
+.elements-li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.item-list {
+  display: flex;
+  align-items: center;
+  text-decoration: line-through;
+  opacity: 20%;
+  padding: 10px 0px 10px 20px;
+  margin: 10px 0px 10px 0px;
+}
+
+.check {
+  opacity: 50%;
 }
 
 .list-container button {
+  display: flex;
+  align-items: center;
   margin-left: 10px;
-  padding: 5px 10px 5px 10px;
+  transform: scale(1.5);
   border: none;
   border-radius: 2px;
   background: none;
-  background-color: #0D0D0D;
-  color: white;
+  color: rgb(0, 153, 255);
+  cursor: pointer;
+  transition: 200ms;
 }
 
 .checkbox-on {
   transition: 200ms;
   border-radius: 50%;
-  background-color: #F2CF66;
-  color: #F2CF66;
+  background-color: #26baff;
+  color: #26baff;
 }
 
 .popup {
@@ -104,19 +147,16 @@ ol {
 }
 
 .popup input {
-  height: 30px;
+  height: 25px;
   text-indent: 10px;
   border: none;
   border-radius: 2px;
   box-shadow: inset 0px 0px 0px 1px rgba(0, 0, 0, 0.315);
-  background-color: #0D0D0D;
-  color: #F25C05;
-  font-family: cursive;
   font-weight: bold;
 }
 
-.list-item {
-  width: 200px;
+.list-container button:hover {
+  background-color: #26baff57;
 }
 
 .remove-button {
@@ -125,16 +165,17 @@ ol {
   gap: 5px;
   border: none;
   border-radius: 5px;
-  background-color: rgb(255, 0, 64);
+  background-color: rgba(128, 0, 53, 0.801);
   padding: 10px;
   color: white;
   font-weight: bold;
+  cursor: pointer;
+  transition: 200ms;
 }
 
-
-
-
-
+.remove-button:hover {
+  background-color: rgba(165, 0, 69, 0.801);
+}
 
 @media all and (max-width: 1000px) {
   .no-posts {

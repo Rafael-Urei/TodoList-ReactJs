@@ -3,6 +3,7 @@ import uuid from 'react-uuid';
 import './App.css';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { BiTrash } from 'react-icons/bi';
+import { BsCheck2, BsCheck2All, BsCardChecklist } from 'react-icons/bs';
 import { RxEyeNone } from 'react-icons/rx';
 import { Li } from '../src/components/li';
 
@@ -25,9 +26,7 @@ export default function App() {
 
   const handleEditTask = (key) => {
     const editedTasks = tasks.map(object  => object.key === key ? { ...object, value: newValue, state: !object.state } : object );
-    newValue !== '' ?
-      setTasks(editedTasks)
-      : alert('Input cannot be blank!')
+    newValue !== '' ? setTasks(editedTasks) : alert('Input cannot be blank!')
   }
 
   const handleAddTask = (e) => {
@@ -63,8 +62,7 @@ export default function App() {
     });
   };
 
-  const handleRemove = (e) => {
-    e.preventDefault();
+  const handleRemove = () => {
     const newList = tasks.filter(object => object.checked ? false : true);
     setTasks(newList);
   };
@@ -96,6 +94,7 @@ export default function App() {
     <div className='App'>
       <main>
         <form onSubmit={handleAddTask}>
+          <BsCardChecklist className='icon-list'/>
           <input className='input' type='text' name='input' value={inputValue} placeholder='e.g. Study React.JS' autoComplete='no' onChange={handleGetValue}></input>
           <button type='submit' className='add-button' onClick={handleAddTask}><AiOutlinePlus/> Add Task</button>
         </form>
@@ -108,13 +107,13 @@ export default function App() {
                 </> :
                 tasks.map((item, index) => {
                   return (
-                    <>
+                    <div className='list-container'>
+                      { !item.state ? <button className='done-button' onClick={() => handleDoneTask(item.key)}>{ item.done ? <BsCheck2All/> : <BsCheck2 className='check'/> }</button> : null }
                       <Li item={item} index={index} handleShowDropdown={() => handleShowDropdown(item.key)} handleChange={() => {handleChange(item.key)}}
                       handleEditTask={() => handleEditTask(item.key)} handleNewValue={handleNewValue} newValue={newValue} 
                       >
-                        <button type='checkbox' className='done-button' onClick={() => handleDoneTask(item.key)}>{ item.done ? 'Undone' : 'Done'}</button>
                       </Li>
-                    </>
+                    </div>
                   )
                 })
               }

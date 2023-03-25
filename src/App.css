@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Barlow&display=swap');
 
 * {
   padding: 0;
@@ -42,6 +43,7 @@ form input {
   font-weight: bold;
   background-color: #2c2c2c;
   color: #c2c2c2;
+  font-family: 'Barlow', sans-serif;
 }
 
 form button {
@@ -54,6 +56,7 @@ form button {
   font-weight: bold;
   cursor: pointer;
   transition: 200ms;
+  font-family: 'Barlow', sans-serif;
 }
 
 form button:hover {
@@ -68,8 +71,11 @@ ol {
   border-radius: 5px;
   width: 80%;
   list-style: none;
-  background-color: #1f1f1f;
-  color: white;
+  color: rgb(187, 187, 187);
+}
+
+.without-style {
+  background-color: transparent;
 }
 
 .no-posts {
@@ -84,7 +90,7 @@ ol {
   width: 100%;
   align-items: center;
   cursor: pointer;
-  box-shadow: 0px 1px 0px 0px rgba(0, 27, 77, 0.295);
+  box-shadow: 0px 1px 0px 0px rgba(97, 97, 97, 0.295);
 }
 
 .list-container li {
@@ -111,7 +117,9 @@ ol {
   display: flex;
   align-items: center;
   text-decoration: line-through;
-  opacity: 20%;
+  text-decoration-color: #00c1fc;
+  text-decoration-thickness: 3px;
+  opacity: 50%;
   padding: 10px 0px 10px 20px;
   margin: 10px 0px 10px 0px;
 }
@@ -171,10 +179,77 @@ ol {
   font-weight: bold;
   cursor: pointer;
   transition: 200ms;
+  font-family: 'Barlow', sans-serif;
 }
 
 .remove-button:hover {
   background-color: rgba(165, 0, 69, 0.801);
+}
+
+.modal {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background-color: #1f1f1fbb;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  display: flex;
+  grid-auto-rows: auto;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+  opacity: 100%;
+  z-index: 1;
+  position: fixed;
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  animation: showmodal 1s 1s;
+  background-color: #222222;
+  box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.233);
+  font-weight: 600;
+}
+
+.button-container {
+  display: flex;
+  margin: 20px 0px 5px 0px;
+}
+
+.modal-content h1 {
+  font-size: 1.3em;
+  color: rgb(199, 0, 0);
+  margin-bottom: 10px;
+}
+
+.modal-content p {
+  color: rgba(255, 255, 255, 0.685);
+  font-size: 0.9em;
+}
+
+.button-container button{
+  background-color: #0D0D0D;
+  grid-row-start: 3;
+  border: none;
+  color: white;
+  width: 50px;
+  padding: 5px;
+  border-radius: 2px;
+  margin: 0px 20px;
+  cursor: pointer;
+  transition: 200ms;
+}
+
+#btn1:hover {
+  background-color: rgb(0, 206, 110);
+}
+
+#btn2:hover {
+  background-color: #26baff;
 }
 
 @media all and (max-width: 1000px) {
@@ -194,4 +269,125 @@ ol {
   body {
     font-size: 0.8em;
   }
+}
+
+@keyframes showmodal {
+  from {
+    display: none;
+    transform: scale(0);
+    opacity: 0%;
+  }
+
+  to {
+    display: flex;
+    transform: scale(1);
+    opacity: 100%;
+  }
+}
+
+
+
+
+
+
+
+
+
+.change-button {
+  display: flex;
+  align-items: center;
+  border: none;
+  background-color: #222222;
+  color: rgb(230, 176, 0);
+  padding: 10px;
+  border-radius: 5px;
+  position: absolute;
+  margin: 20px;
+  cursor: pointer;
+  scale: 1.2;
+}
+
+.white-main {
+  background-color: white;
+}
+
+.white-form {
+  background-color: #e4e4e4;
+}
+
+.white-form input {
+  background-color: #e4e4e4;
+  color: #0D0D0D;
+}
+
+.white-no-posts {
+  color: black;
+  height: 200px;
+  width: 200px;
+  background: none;
+  opacity: 20%;
+}
+
+.white-list-container {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0px 1px 0px 0px rgba(97, 97, 97, 0.295);
+}
+
+.white-list-container li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
+  margin-right: 30px;
+  padding: 10px;
+  margin: 10px 0px 10px 20px;
+  border-radius: 5px;
+  color: #c2c2c2;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-weight: bold;
+  color: #0D0D0D;
+}
+
+.white-list-container button {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+  transform: scale(1.5);
+  border: none;
+  border-radius: 2px;
+  background: none;
+  color: rgb(0, 153, 255);
+  cursor: pointer;
+  transition: 200ms;
+}
+
+.white-modal-content {
+  display: flex;
+  grid-auto-rows: auto;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+  opacity: 100%;
+  z-index: 1;
+  position: fixed;
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  animation: showmodal 1s 1s;
+  box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.233);
+  font-weight: 600;
+}
+
+.white-modal-content h1 {
+  font-size: 1.3em;
+  color: rgb(199, 0, 0);
+  margin-bottom: 10px;
+}
+
+.white-modal-content p {
+  color: #0D0D0D;
+  font-size: 0.9em;
 }

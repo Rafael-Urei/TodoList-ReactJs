@@ -19,6 +19,7 @@ main {
   gap: 10px;
   min-height: 100vh;
   background-color: #0D0D0D;
+  transition: 300ms;
 }
 
 form {
@@ -309,6 +310,7 @@ ol {
 
 .white-main {
   background-color: white;
+  transition: 300ms;
 }
 
 .white-form {

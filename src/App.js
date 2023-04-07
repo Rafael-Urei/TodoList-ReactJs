@@ -1,139 +1,116 @@
 import { useState } from 'react';
 import uuid from 'react-uuid';
 import './App.css';
-import { AiOutlinePlus } from 'react-icons/ai';
-import { BiTrash } from 'react-icons/bi';
-import { BsCheck2, BsCheck2All, BsCardChecklist } from 'react-icons/bs';
-import { RxEyeNone } from 'react-icons/rx';
-import { Li } from '../src/components/li';
-import { Modal } from '../src/components/modal';
-import { MdDarkMode } from 'react-icons/md';
-import { RiSunFill } from 'react-icons/ri';
+import { BsCheck2 as Check } from 'react-icons/bs';
+import { useForm } from 'react-hook-form';
 
 
 
 export default function App() {
 
-  // ------------------ States ------------------
-
-  const [inputValue, setInputValue] = useState('');
+  const [value, setValue] = useState('');
+  const [search, setSearch] = useState('');
   const [tasks, setTasks] = useState([]);
-  const [newValue, setNewValue] = useState('');
-  const [modal, setModal] = useState(false);
-  const [changeMode, setChangeMode] = useState(false);
+  const { register, handleSubmit } = useForm();
 
-  // ------------------ States ------------------
-
-
-  // ------------------ Functions ------------------
-
-  const handleGetValue = e => setInputValue(e.target.value);
-  const handleNewValue = e => setNewValue(e.target.value);
-
-  const handleEditTask = (key) => {
-    const editedTasks = tasks.map(object  => object.key === key ? { ...object, value: newValue, state: !object.state } : object );
-    newValue !== '' ? setTasks(editedTasks) : alert('Input cannot be blank!')
-  }
-
-  const handleAddTask = (e) => {
-    e.preventDefault();
-    inputValue !== '' ?
-      setTasks(prevState => {
-        return [
-          ...prevState,
-          {
-            key: uuid(),
-            value: inputValue,
-            state: false,
-            checked: false,
-            done: false
-          }
-        ]
-      }) : alert('Input field cannot be blank!');
-      setInputValue('');
+  const onSubmit = () => {
+    console.log('Renderizei')
   };
 
-  const handleShowDropdown = (key) => {
-    setTasks(prevState => {
-      return prevState.map(object => {
-        if (object.key === key) {
-          return {
-            ...object,
-            state: !object.state,
-          }
-        } else {
-          return object;
+  const handleAddTasks = () => {
+    value !== '' && setTasks(prev => {
+      return [
+        ...prev,
+        {
+          id: uuid(),
+          value: value,
+          checked: false,
+          deleted: false,
+          done: false,
         }
-      });
-    });
+      ]
+    })
+    setValue('');
   };
 
-  const handleChangeModal = () => {
-    const newArr = tasks.filter((object) => !object.checked)
-    newArr.length === 0 && tasks.length !== 0 ? setModal(!modal) : alert('Input cannot be blank!')
-    
-  };
+  const handleDelete = (id) => {
+    const newArr = tasks.filter(object => {
+      if (object.id === id) {
+        return false;
+      } else {
+        return true;
+      }
+    })
 
-  const handleRemove = () => {
-    const newList = tasks.filter(object => object.checked ? false : true);
-    setTasks(newList)
-  };
-
-  const handleChange = (key) => {
-    const newList = tasks.map(object => object.key === key ? { ...object, checked: !object.checked } : object)
-    setTasks(newList);
-  };
-
-  const handleDoneTask = (key) => {
-    const newlist = tasks.map((object) => {
-      if (object.key === key) {
+    const newArr2 = tasks.map(object => {
+      if (object.id === id) {
         return {
           ...object,
-          done: !object.done
-        };
+          deleted: !object.deleted
+        }
       } else {
-        return object
-      };
-    });
-    setTasks(newlist);
+        return object;
+      }
+    })
+    setTasks(newArr2);
+    setTimeout(() => {
+      setTasks(newArr);
+    }, 200)
   };
 
-  // ------------------ Functions ------------------
+  const handleCheck = (id) => {
+    const newArr = tasks.map(object => object.id === id ? {...object, checked: !object.checked } : object)
+    setTasks(newArr);
+    console.log(tasks);
+  };
 
-  // ------------------ Main Code ------------------
+  const filteredTasks = tasks.filter(object => object.value.includes(search));
 
   return (
     <div className='App'>
-      {modal && <Modal handleRemove={handleRemove} handleChangeModal={handleChangeModal}/>}
-      <button type='button' className='change-button' onClick={() => setChangeMode(!changeMode)}>{ changeMode ? <MdDarkMode/> : <RiSunFill/> }</button>
-      <main className={ changeMode ? 'white-main' : null }>
-        <form onSubmit={handleAddTask} className={ changeMode ? 'white-form' : null }>
-          <BsCardChecklist className='icon-list'/>
-          <input className='input' type='text' name='input' value={inputValue} placeholder='e.g. Study React.JS' autoComplete='no' onChange={handleGetValue}></input>
-          <button type='submit' className='add-button' onClick={handleAddTask}><AiOutlinePlus/> Add Task</button>
+      <main>
+        <header>
+          <h1>To do list</h1>
+        </header>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <label htmlFor='task'>Type your task:</label>
+          <input type='text' placeholder='Set your task...' value={value} autoComplete='no' {...register('task')} onChange={(e) => setValue(e.target.value)} />
+          <button type='submit' title='Add task' onClick={handleAddTasks}>Add task</button>
+          <label>Search for a task:</label>
+          <input type='search' placeholder='Search task...' value={search} autoComplete='no' onChange={(e) => setSearch(e.target.value)}></input>
         </form>
-        <>
-          <ol>
-              {tasks.length === 0 ? 
+        <ul>
+          {
+            search.length > 0
+            ?
+            filteredTasks.map(object => {
+              return (
                 <>
-                  <RxEyeNone className={ changeMode ? 'white-no-posts' : 'no-posts' }/>
-                  <p>There are no tasks yet!</p>
-                </> :
-                tasks.map((item, index) => {
-                  return (
-                    <div className={ changeMode ? 'white-list-container' : 'list-container' }>
-                      { !item.state ? <button className='done-button' onClick={() => handleDoneTask(item.key)}>{ item.done ? <BsCheck2All/> : <BsCheck2 className='check'/> }</button> : null }
-                      <Li item={item} index={index} handleShowDropdown={() => handleShowDropdown(item.key)} handleChange={() => {handleChange(item.key)}}
-                      handleEditTask={() => handleEditTask(item.key)} handleNewValue={handleNewValue} newValue={newValue} 
-                      >
-                      </Li>
-                    </div>
-                  )
-                })
-              }
-          </ol>
-        </>
-          <button type='button' onClick={handleChangeModal} className='remove-button'><BiTrash/> Remove checked</button>
+                  <li key={object.id} className={ object.checked ? 'li3' : object.deleted ? 'li2' : 'li' } >
+                    <Check className='check' onClick={() => handleCheck(object.id)}/>
+                    {object.value}
+                    <button onClick={() => handleDelete(object.id)}>Delete</button>
+                  </li>
+                </>
+              )
+            })
+            :
+            tasks.map((object) => {
+              return (
+                <>
+                  <li key={object.id} className={ object.checked ? 'li3' : object.deleted ? 'li2' : 'li' } >
+                    <Check className='check' onClick={() => handleCheck(object.id)}/>
+                    {object.value}
+                    <button onClick={() => handleDelete(object.id)}>Delete</button>
+                  </li>
+                </>
+              )
+            })
+          }
+        </ul>
+        <div>
+          <button onClick={() => setTasks([])}>Delete All</button>
+        </div>
       </main>
     </div>
   )
